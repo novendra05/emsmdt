@@ -1,0 +1,125 @@
+<div class="flex justify-between items-center mb-8">
+    <div>
+        <h2 class="text-4xl font-extrabold text-blue-950 tracking-tight leading-none italic uppercase">Medical Records</h2>
+        <p class="text-xs text-blue-500 font-black uppercase tracking-[0.2em] mt-2 opacity-70 italic shadow-blue-50">Global Incident & Treatment Logs</p>
+    </div>
+    <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 group" onclick="window.PageControllers.records.openEditor()">
+        <i class="fas fa-plus-circle text-blue-300/80 group-hover:scale-125 transition-all"></i> Create Record
+    </button>
+</div>
+
+<div class="bg-white p-6 rounded-[2rem] border border-blue-50 shadow-blue-100/30 clinical-shadow mb-8 group focus-within:ring-4 focus-within:ring-blue-100/50 transition-all flex space-x-4">
+    <div class="flex-1 relative">
+        <i class="fas fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-blue-300"></i>
+        <input type="text" id="search-record-input" placeholder="Query Patient Name, Diagnosis, or Medic..." class="w-full bg-slate-50 border border-blue-50 rounded-2xl pl-12 pr-4 py-4 text-blue-950 font-bold placeholder:text-slate-400 placeholder:italic focus:outline-none focus:bg-white focus:border-blue-300 transition-all">
+    </div>
+</div>
+
+<div class="grid grid-cols-4 gap-4 px-6 py-3 text-[10px] uppercase font-black tracking-widest text-blue-400 opacity-70">
+    <div class="col-span-1">Date / Time</div>
+    <div class="col-span-1">Patient</div>
+    <div class="col-span-1">Attending Medic</div>
+    <div class="col-span-1">Primary Diagnosis</div>
+</div>
+
+<div id="records-list" class="flex-1 overflow-y-auto max-h-[calc(100vh-320px)] space-y-3 pr-2 pb-10">
+    <!-- Records will be injected here -->
+    <div class="flex flex-col items-center justify-center text-blue-200 space-y-4 py-20 animate-pulse mt-10">
+        <i class="fas fa-file-medical text-9xl opacity-20"></i>
+        <p class="font-black tracking-[0.3em] uppercase text-[11px] text-blue-300/40 opacity-80 italic">Fetching Cloud Databank...</p>
+    </div>
+</div>
+
+<!-- ============= MEDICAL RECORDS V2 EDITOR (GIANT MODAL) ============= -->
+<div id="records-v2-editor-view" class="hidden absolute inset-0 z-[100] bg-blue-900/60 backdrop-blur-md p-6 flex flex-col items-center justify-center">
+    <!-- Modal Container -->
+    <div class="bg-slate-50 border border-blue-200 shadow-2xl rounded-[2rem] w-full max-w-[1400px] h-full max-h-[92vh] flex flex-col overflow-hidden animate-[popIn_0.2s_ease-out_forwards]">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-center bg-white border-b border-blue-100 px-8 py-5 flex-shrink-0 clinical-shadow z-10">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-blue-50 border border-blue-100 rounded-2xl flex items-center justify-center text-blue-500 shadow-sm shadow-blue-100">
+                    <i class="fas fa-file-medical text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-extrabold text-blue-950 tracking-tight leading-none mb-1">Medical Record Authoring</h2>
+                    <p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest leading-none">Global Clinical Database Protocol</p>
+                </div>
+                <span id="record-v2-id-display" class="bg-blue-100 text-blue-600 border border-blue-200 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl ml-2">#NEW</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button id="cancel-record-v2-btn" class="bg-white hover:bg-slate-100 border border-slate-200 text-slate-500 text-[11px] font-black uppercase tracking-widest px-6 py-3 rounded-xl transition shadow-sm active:scale-95" onclick="window.PageControllers.records.closeEditor()">Discard</button>
+                <button id="save-record-v2-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest transition shadow-lg shadow-blue-200 flex items-center gap-2 active:scale-95" onclick="window.PageControllers.records.saveRecord()">
+                    <i class="fas fa-save"></i> Commit Record
+                </button>
+            </div>
+        </div>
+
+        <!-- Body (Split Screen) -->
+        <div class="flex-1 flex gap-6 min-h-0 p-8 bg-slate-50/50 relative">
+            
+            <!-- LEFT: Title + Debrief -->
+            <div class="flex flex-col flex-1 min-w-0 min-h-0 space-y-5">
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-blue-500 block mb-1.5 ml-2">Primary Diagnosis / Incident Title</label>
+                    <input type="text" id="record-v2-title"
+                        class="w-full bg-white border border-blue-100 rounded-2xl px-5 py-4 text-blue-950 focus:outline-none focus:ring-2 focus:ring-blue-300 transition placeholder-slate-300 text-sm shadow-sm font-bold"
+                        placeholder="e.g. Gunshot wound to left arm... ">
+                </div>
+                
+                <div class="flex-1 min-h-0 flex flex-col bg-white border border-blue-100 rounded-[2rem] overflow-hidden shadow-sm">
+                    <div class="bg-blue-50/50 border-b border-blue-100 px-6 py-4 text-[10px] font-black uppercase tracking-widest text-blue-500 flex items-center"><i class="fas fa-notes-medical mr-2 text-blue-300"></i> Narrative & Treatment Process</div>
+                    <textarea id="record-v2-treatment" class="flex-1 w-full bg-transparent p-6 text-sm text-blue-950 font-medium focus:outline-none resize-none" placeholder="Detail the treatment protocol, visible symptoms, administered medication..."></textarea>
+                </div>
+            </div>
+
+            <!-- RIGHT: Associations Sidebar -->
+            <div class="w-[380px] flex-shrink-0 flex flex-col min-h-0 space-y-4 overflow-y-auto pr-2 no-scrollbar">
+
+                <!-- Medical Team -->
+                <div class="bg-white border border-blue-100 rounded-[2rem] p-5 flex-shrink-0 shadow-sm">
+                    <div class="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-3 flex items-center"><i class="fas fa-user-md mr-2 bg-blue-50 p-2 rounded-xl text-blue-400"></i>Attending Medical Team</div>
+                    <div class="relative mb-3 group">
+                        <input type="text" id="medic-v2-search-input"
+                            class="w-full bg-slate-50 border border-blue-50 focus:border-blue-200 rounded-xl px-4 py-3 text-xs text-blue-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-100 transition shadow-inner font-semibold"
+                            placeholder="Search staff by Name or ID...">
+                        <div id="medic-v2-suggestions" class="absolute z-30 w-full mt-2 bg-white border border-blue-100 rounded-xl shadow-xl hidden max-h-40 overflow-y-auto"></div>
+                    </div>
+                    <ul id="record-v2-medics-list" class="space-y-2"></ul>
+                </div>
+
+                <!-- Patients -->
+                <div class="bg-white border border-blue-100 rounded-[2rem] p-5 flex-shrink-0 shadow-sm">
+                    <div class="text-[10px] font-black uppercase tracking-widest text-red-500 mb-3 flex items-center"><i class="fas fa-user-injured mr-2 bg-red-50 p-2 rounded-xl text-red-400"></i>Active Patients</div>
+                    <div class="relative mb-3 group">
+                        <input type="text" id="patient-v2-search-input"
+                            class="w-full bg-slate-50 border border-red-50 focus:border-red-200 rounded-xl px-4 py-3 text-xs text-blue-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-100 transition shadow-inner font-semibold"
+                            placeholder="Identify patient by Name or ID...">
+                        <div id="patient-v2-suggestions" class="absolute z-30 w-full mt-2 bg-white border border-blue-100 rounded-xl shadow-xl hidden max-h-40 overflow-y-auto"></div>
+                    </div>
+                    <ul id="record-v2-patients-list" class="space-y-2"></ul>
+                </div>
+                
+                <!-- Attachments -->
+                <div class="bg-white border border-blue-100 rounded-[2rem] p-5 flex-shrink-0 shadow-sm">
+                    <div class="text-[10px] font-black uppercase tracking-widest text-purple-500 mb-3 flex items-center"><i class="fas fa-camera mr-2 bg-purple-50 p-2 rounded-xl text-purple-400"></i>Evidence & Photos</div>
+                    <div class="relative mb-3 group">
+                        <input type="text" id="attachment-v2-search-input"
+                            class="w-full bg-slate-50 border border-purple-50 focus:border-purple-200 rounded-xl px-4 py-3 text-xs text-purple-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-100 transition shadow-inner font-semibold"
+                            placeholder="Search DB by ID or Title...">
+                        <div id="attachment-v2-suggestions" class="absolute z-30 w-full mt-2 bg-white border border-purple-100 rounded-xl shadow-xl hidden max-h-40 overflow-y-auto"></div>
+                    </div>
+                    <ul id="record-v2-attachments-list" class="space-y-2"></ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+</style>

@@ -1,0 +1,96 @@
+<div class="flex flex-col mb-10 relative">
+    <div class="flex items-center gap-4">
+        <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
+            <i class="fas fa-user-md text-2xl"></i>
+        </div>
+        <div>
+            <h2 class="text-3xl font-extrabold text-blue-950 tracking-tight leading-none italic">Welcome Back, <span id="welcome-name" class="text-blue-600">Officer</span></h2>
+            <p class="text-[10px] text-blue-400 font-black uppercase tracking-[0.3em] mt-1">Medical Operations Network &bull; v1.5</p>
+        </div>
+    </div>
+    <button class="absolute top-2 right-0 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 group text-xs" onclick="window.PageControllers.home.openBulletinModal()">
+        <i class="fas fa-bullhorn text-blue-300"></i> Post Bulletin
+    </button>
+</div>
+
+<!-- Info Hub Grid -->
+<div class="grid grid-cols-3 gap-8 mb-10">
+    <!-- Quick Radio Codes -->
+    <div class="bg-white rounded-[2rem] p-8 clinical-shadow border border-blue-50">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="h-10 w-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center shadow-sm"><i class="fas fa-walkie-talkie"></i></div>
+            <h3 class="text-sm font-black text-blue-950 uppercase tracking-widest">Radio Reference</h3>
+        </div>
+        <div class="grid grid-cols-2 gap-x-6 gap-y-3">
+            <div class="flex justify-between border-b border-slate-50 pb-1"><span class="text-[10px] font-black text-blue-600">10-4</span> <span class="text-[10px] font-bold text-slate-500">Received</span></div>
+            <div class="flex justify-between border-b border-slate-50 pb-1"><span class="text-[10px] font-black text-blue-600">10-7</span> <span class="text-[10px] font-bold text-slate-500">Off-Duty</span></div>
+            <div class="flex justify-between border-b border-slate-50 pb-1"><span class="text-[10px] font-black text-blue-600">10-8</span> <span class="text-[10px] font-bold text-slate-500">On-Duty</span></div>
+            <div class="flex justify-between border-b border-slate-50 pb-1"><span class="text-[10px] font-black text-blue-600">10-20</span> <span class="text-[10px] font-bold text-slate-500">Location</span></div>
+            <div class="flex justify-between border-b border-slate-50 pb-1"><span class="text-[10px] font-black text-blue-600">10-97</span> <span class="text-[10px] font-bold text-slate-500">Arrived</span></div>
+            <div class="flex justify-between border-b border-slate-50 pb-1"><span class="text-[10px] font-black text-blue-600">10-98</span> <span class="text-[10px] font-bold text-slate-500">Clear</span></div>
+        </div>
+    </div>
+
+    <!-- Triage Protocol -->
+    <div class="bg-white rounded-[2rem] p-8 clinical-shadow border border-blue-50">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="h-10 w-10 bg-red-50 text-red-600 rounded-xl flex items-center justify-center shadow-sm"><i class="fas fa-heart-pulse"></i></div>
+            <h3 class="text-sm font-black text-blue-950 uppercase tracking-widest">Triage Protocol</h3>
+        </div>
+        <div class="space-y-3">
+            <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                <div class="text-[10px] font-black text-slate-600 uppercase">Red: Immediate Care</div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div class="text-[10px] font-black text-slate-600 uppercase">Yellow: Delayed Care</div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                <div class="text-[10px] font-black text-slate-600 uppercase">Green: Minor Injury</div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full bg-slate-900"></div>
+                <div class="text-[10px] font-black text-slate-600 uppercase">Black: Expectant</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clinical Scratchpad -->
+    <div class="bg-blue-600 rounded-[2rem] p-8 shadow-xl shadow-blue-200 relative overflow-hidden group">
+        <div class="absolute -right-4 -bottom-4 opacity-10 text-8xl text-white group-hover:scale-110 transition-transform">
+            <i class="fas fa-feather-pointed"></i>
+        </div>
+        <div class="relative z-10 flex flex-col h-full">
+            <h3 class="text-sm font-black text-blue-100 uppercase tracking-widest mb-4 flex items-center gap-2">
+                <i class="fas fa-notes-medical"></i> Quick Notes
+            </h3>
+            <textarea id="clinical-scratchpad" class="w-full h-full bg-blue-700/30 rounded-xl border border-blue-400/30 p-4 text-white text-xs font-medium placeholder:text-blue-300/50 focus:outline-none focus:bg-blue-700/50 transition-all resize-none" placeholder="Type temporary notes here..."></textarea>
+            <div class="text-[8px] text-blue-300 font-black uppercase tracking-widest mt-3 transition-opacity duration-300 opacity-0" id="scratchpad-status">Saved Locally</div>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-12 gap-8">
+    <!-- Announcements (Full Width) -->
+    <div class="col-span-12 bg-white rounded-[2rem] p-10 clinical-shadow border border-blue-50 flex flex-col h-[400px]">
+        <div class="flex items-center justify-between mb-8 flex-shrink-0">
+            <div class="flex items-center gap-5">
+                <div class="h-12 w-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 shadow-sm"><i class="fas fa-bullhorn text-xl"></i></div>
+                <div>
+                    <h3 class="text-xl font-extrabold text-blue-950 tracking-tight">Administrative Bulletins</h3>
+                    <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Official Hospital Notifications</p>
+                </div>
+            </div>
+            <div class="text-xs font-black text-blue-400 font-mono tracking-tighter bg-blue-50 px-4 py-2 rounded-xl border border-blue-100" id="network-clock">--:--:--</div>
+        </div>
+        
+        <div id="bulletins-list" class="space-y-4 overflow-y-auto pr-2 flex-1 no-scrollbar pb-6">
+            <div class="flex flex-col items-center justify-center text-blue-200 space-y-4 py-16 animate-pulse">
+                <i class="fas fa-spinner fa-spin text-4xl opacity-30"></i>
+                <p class="font-black tracking-[0.3em] uppercase text-[9px] text-blue-300/60 italic">Updating Dashboard...</p>
+            </div>
+        </div>
+    </div>
+</div>
