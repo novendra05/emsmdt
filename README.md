@@ -27,8 +27,9 @@ A fully modernized, clinical-grade Medical Data Terminal (MDT) designed for Five
 This MDT is optimized for the **Qbox framework**. Ensure your database has the necessary tables for characters and medical records.
 
 ## 🕹️ Controls
-*   Use the designated in-game command or item to open the tablet.
-*   Access is restricted to players with the `ambulance` job (or configured medical jobs) who are currently **On-Duty**.
+*   **Command**: Type `/emsmdt` in the chat to open the clinical tablet.
+*   **Animation**: Playing the tablet animation can be toggled in `config.lua`.
+*   **Restriction**: Access is restricted to players with the `ambulance` job who are currently **On-Duty**.
 
 ---
 *Developed for advanced clinical roleplay.*
